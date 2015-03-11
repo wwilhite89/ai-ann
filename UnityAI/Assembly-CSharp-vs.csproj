@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\AdjacentAgentSensor.cs" />
+     <Compile Include="Assets\Scripts\AgentScript.cs" />
      <Compile Include="Assets\Scripts\BasePlayerScript.cs" />
      <Compile Include="Assets\Scripts\ConsoleDebug.cs" />
      <Compile Include="Assets\Scripts\CreateAgent.cs" />
