@@ -8,6 +8,7 @@ public class PieSensorScript : MonoBehaviour
     public float range = 3F;
     public Vector3 startDir = new Vector3(0, 1, 0);
     private int[] actLevels = new int[4];
+	public GameObject trainingObject;
 
     enum Slice
     {
@@ -50,11 +51,14 @@ public class PieSensorScript : MonoBehaviour
         actLevels[2] = getActivationLevel(Slice.BOTTOM_RIGHT);
         actLevels[3] = getActivationLevel(Slice.BOTTOM_LEFT);
 
-        if (oldLevels[0] != actLevels[0] ||
-            oldLevels[1] != actLevels[1] ||
-            oldLevels[2] != actLevels[2] ||
-            oldLevels[3] != actLevels[3])
-            Debug.Log(string.Format("Activation Levels: {0},{1},{2},{3}", actLevels[0], actLevels[1], actLevels[2], actLevels[3]));
+        if (oldLevels [0] != actLevels [0] ||
+			oldLevels [1] != actLevels [1] ||
+			oldLevels [2] != actLevels [2] ||
+			oldLevels [3] != actLevels [3]) {
+			Debug.Log (string.Format ("Activation Levels: {0},{1},{2},{3}", 
+			                        actLevels [0], actLevels [1], actLevels [2], actLevels [3]));
+			trainingObject.GetComponent<TrainingScript> ().actLevels = actLevels;
+		}
     }
 
     /// <summary>

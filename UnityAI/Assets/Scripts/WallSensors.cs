@@ -6,10 +6,15 @@ public class WallSensors : MonoBehaviour {
 	// variables
 	public float playerOffset;
 	public float sensorLength;
+	RaycastHit2D hitFront;
+	RaycastHit2D hitRight;
+	RaycastHit2D hitLeft;
 	private string rightDist;
 	private string leftDist;
 	private string fwdDist;
-
+	public GameObject trainingObject;
+	
+	
 	// Use this for initialization
 	void Start () {
 	
@@ -17,6 +22,12 @@ public class WallSensors : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+		updateSensors ();
+	}
+
+	private void updateSensors() {
+	
 		// vectors to hold sensor right offset and left offset
 		Vector2 fwdRight = transform.position;
 		Vector2 fwdLeft = transform.position;
@@ -33,9 +44,9 @@ public class WallSensors : MonoBehaviour {
 		
 		// three raycasts fwd, left and right.
 		// theses rays will only sense objects in layer 8, that is where the walls live
-		RaycastHit2D hitFront = Physics2D.Raycast(transform.position, this.transform.up, sensorLength, 1 << 8);
-		RaycastHit2D hitRight = Physics2D.Raycast(transform.position, fwdRight, sensorLength, 1 << 8);
-		RaycastHit2D hitLeft = Physics2D.Raycast(transform.position, fwdLeft, sensorLength, 1 << 8);
+		hitFront = Physics2D.Raycast (transform.position, this.transform.up, sensorLength, 1 << 8);
+		hitRight = Physics2D.Raycast (transform.position, fwdRight, sensorLength, 1 << 8);
+		hitLeft = Physics2D.Raycast (transform.position, fwdLeft, sensorLength, 1 << 8);
 		
 		// for accuracy and readability, player offset is the radious of its collider
 		hitFront.distance -= playerOffset;
@@ -49,18 +60,18 @@ public class WallSensors : MonoBehaviour {
 			hitLeft.distance = sensorLength;
 		if (hitRight.collider == null) {
 			hitRight.distance = sensorLength;
-			GUI.Label (new Rect (10,10,10,20), "right sensor hit");
 		}
-		
-		// print the distances found to the console
-		Debug.Log ("FrontSensor " + hitFront.distance.ToString("F2") + " " +
-		           "RightSensor " + hitRight.distance.ToString("F2") +  " " +
-		           "LeftSensor " + hitLeft.distance.ToString("F2"));
 
-		// set the distances for the gui print 
+		setTrainingDist (hitRight.distance,hitLeft.distance,hitFront.distance);
+		
+		// format the distances 
 		rightDist = hitRight.distance.ToString ("F2");
 		leftDist = hitLeft.distance.ToString ("F2");
 		fwdDist = hitFront.distance.ToString ("F2");
+		// print the distances found to the console
+		/*Debug.Log ("FrontSensor " + rightDist + " " +
+		           "RightSensor " + leftDist +  " " +
+		           "LeftSensor " + fwdDist); */
 	}
 
 	// print the distances of each sensor to the game screen
@@ -70,6 +81,12 @@ public class WallSensors : MonoBehaviour {
 		GUI.Label (new Rect (10,25,150,20), "Front Wall Sensor: " + fwdDist);
 		GUI.Label (new Rect (10,40,150,20), "Right Wall Sensor: " + rightDist);
 		
+	}
+
+	private void setTrainingDist(float r, float l, float f) {
+		trainingObject.GetComponent<TrainingScript> ().rightSensor = r;
+		trainingObject.GetComponent<TrainingScript> ().leftSensor = l;
+		trainingObject.GetComponent<TrainingScript> ().frontSensor = f;
 	}
 
 }
