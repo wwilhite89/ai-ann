@@ -6,9 +6,10 @@ public class PlayerScript : MonoBehaviour {
 	public float speed;
 	public float rotationSpeed;
 
+
 	void FixedUpdate()
 	{
-		
+
 		// movement and rotation
 		float translation = Input.GetAxis("Vertical") * speed;
 		float rotation = Input.GetAxis("Horizontal") * rotationSpeed;

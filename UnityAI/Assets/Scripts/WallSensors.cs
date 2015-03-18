@@ -83,6 +83,7 @@ public class WallSensors : MonoBehaviour {
 		
 	}
 
+
 	private void setTrainingDist(float r, float l, float f) {
 		trainingObject.GetComponent<TrainingScript> ().rightSensor = r;
 		trainingObject.GetComponent<TrainingScript> ().leftSensor = l;

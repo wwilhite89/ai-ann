@@ -24,5 +24,12 @@ public class TrainingScript : MonoBehaviour {
 
 	void printTrainingData() {
 
+			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"..\sensorData.txt"))
+			{
+				file.WriteLine(leftSensor);
+				file.WriteLine(frontSensor);
+				file.WriteLine(rightSensor);
+			}
+
 	}
 }
