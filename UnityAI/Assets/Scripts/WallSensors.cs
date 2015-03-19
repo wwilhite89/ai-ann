@@ -13,7 +13,7 @@ public class WallSensors : MonoBehaviour {
 	private string leftDist;
 	private string fwdDist;
 	public GameObject trainingObject;
-	
+
 	
 	// Use this for initialization
 	void Start () {
@@ -55,11 +55,11 @@ public class WallSensors : MonoBehaviour {
 		
 		// return the sensor length if the sensor does not sense a wall/ other collider
 		if (hitFront.collider == null)
-			hitFront.distance = sensorLength;
+			hitFront.distance = float.MaxValue;
 		if (hitLeft.collider == null)
-			hitLeft.distance = sensorLength;
+			hitLeft.distance = float.MaxValue;
 		if (hitRight.collider == null) {
-			hitRight.distance = sensorLength;
+			hitRight.distance = float.MaxValue;
 		}
 
 		setTrainingDist (hitRight.distance,hitLeft.distance,hitFront.distance);
