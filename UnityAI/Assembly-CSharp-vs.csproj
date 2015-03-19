@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\CreateAgent.cs" />
      <Compile Include="Assets\Scripts\PieSensorScript.cs" />
      <Compile Include="Assets\Scripts\PlayerScript.cs" />
+     <Compile Include="Assets\Scripts\TrainingScript.cs" />
      <Compile Include="Assets\Scripts\WallSensors.cs" />
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files (x86)/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/4.6.1/UnityEngine.UI.dll</HintPath>

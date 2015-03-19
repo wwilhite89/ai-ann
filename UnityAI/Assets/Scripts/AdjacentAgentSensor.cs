@@ -6,6 +6,7 @@ using System.Linq;
 public class AdjacentAgentSensor : MonoBehaviour {
 	public int range = 2;
     public Vector3 startDir = new Vector3(0, 1, 0);
+	public GameObject trainingObject;
 
 	void OnGUI() {
 		Array agents = getObjectsInRadius("Agent");
@@ -25,10 +26,11 @@ public class AdjacentAgentSensor : MonoBehaviour {
 			Vector2 vector = new Vector2(distance, relativeAngle);
 			vectors.Add(vector);
 		}
-		int y = 10;
+
 		foreach(Vector2 vector in vectors) {
-			GUI.Label (new Rect (10,70,150,20), "Agent " + vector);
-			y += 15;
+			GUI.Label (new Rect (10,60,150,20), "Agent " + vector);
+			trainingObject.GetComponent<TrainingScript>().agentDist = vector.x;
+			trainingObject.GetComponent<TrainingScript>().agentAngle = vector.y;
 		}
 	}
 
