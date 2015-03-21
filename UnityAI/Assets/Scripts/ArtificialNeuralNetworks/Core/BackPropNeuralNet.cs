@@ -54,8 +54,9 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
 
         #region Constructors
 
-        public BackPropNeuralNet(int numInput, int numHidden, int numOutput, bool randomizeInitialWeights = true)
+        public BackPropNeuralNet(int numInput, int numHidden, int numOutput, bool randomizeInitialWeights)
         {
+			randomizeInitialWeights = true;
             this.InputNodeCount = numInput;
             this.HiddeNodeCount = numHidden;
             this.OutputNodeCount = numOutput;
