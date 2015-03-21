@@ -6,18 +6,20 @@ public class PlayerScript : MonoBehaviour {
 	public float speed;
 	public float rotationSpeed;
 	public GameObject trainingObject;
-
+    private TrainingScript script;
 
 
 	void FixedUpdate()
 	{
+        if (script == null)
+            script = trainingObject.GetComponent<TrainingScript>();
 
 		// movement and rotation
 		float translation = Input.GetAxis("Vertical") * speed;
 		if (translation != 0) {
-			setTrainingMove(1.0f);
+			setTrainingMove(true);
 		} else {
-			setTrainingMove(0.0f);
+			setTrainingMove(false);
 		}
 		float rotation = Input.GetAxis("Horizontal") * rotationSpeed;
 		if (rotation > 0) {
@@ -35,14 +37,14 @@ public class PlayerScript : MonoBehaviour {
 
 
 	}
-	private void setTrainingMove(float moving) {
+	private void setTrainingMove(bool moving) {
 
-		trainingObject.GetComponent<TrainingScript>().moving = moving;
+		this.script.setIsMoving(moving);
 
 	}
 	private void setTrainingRot(float rot) {
 		
-		trainingObject.GetComponent<TrainingScript>().rotation = rot;
+		this.script.setRotation(rot);
 		
 	}
 }

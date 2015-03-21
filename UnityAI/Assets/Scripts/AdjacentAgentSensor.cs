@@ -7,6 +7,9 @@ public class AdjacentAgentSensor : MonoBehaviour {
 	public int range = 2;
     public Vector3 startDir = new Vector3(0, 1, 0);
 	public GameObject trainingObject;
+    private TrainingScript script;
+
+    
 
 	void OnGUI() {
 		Array agents = getObjectsInRadius("Agent");
@@ -27,10 +30,14 @@ public class AdjacentAgentSensor : MonoBehaviour {
 			vectors.Add(vector);
 		}
 
+        if (script == null)
+            script = trainingObject.GetComponent<TrainingScript>();
+
 		foreach(Vector2 vector in vectors) {
-			GUI.Label (new Rect (10,60,150,20), "Agent " + vector);
-			trainingObject.GetComponent<TrainingScript>().agentDist = vector.x;
-			trainingObject.GetComponent<TrainingScript>().agentAngle = vector.y;
+			/*GUI.Label (new Rect (10,60,150,20), "Agent " + vector);*/
+
+			script.setAgentDistance(vector.x);
+			script.setAgentAngle(vector.y);
 		}
 	}
 

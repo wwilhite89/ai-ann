@@ -13,7 +13,7 @@ public class WallSensors : MonoBehaviour {
 	private string leftDist;
 	private string fwdDist;
 	public GameObject trainingObject;
-
+    private TrainingScript script;
 	
 	// Use this for initialization
 	void Start () {
@@ -22,7 +22,8 @@ public class WallSensors : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        if (this.script == null)
+            this.script = trainingObject.GetComponent<TrainingScript>();
 		updateSensors ();
 	}
 
@@ -75,19 +76,17 @@ public class WallSensors : MonoBehaviour {
 	}
 
 	// print the distances of each sensor to the game screen
-	void OnGUI() {
+	/*void OnGUI() {
 		
 		GUI.Label (new Rect (10,10,150,20), "Left Wall Sensor: " + leftDist);
 		GUI.Label (new Rect (10,25,150,20), "Front Wall Sensor: " + fwdDist);
 		GUI.Label (new Rect (10,40,150,20), "Right Wall Sensor: " + rightDist);
 		
-	}
+	}*/
 
 
 	private void setTrainingDist(float r, float l, float f) {
-		trainingObject.GetComponent<TrainingScript> ().rightSensor = r;
-		trainingObject.GetComponent<TrainingScript> ().leftSensor = l;
-		trainingObject.GetComponent<TrainingScript> ().frontSensor = f;
+        this.script.setSensors(r, l, f);
 	}
 
 }

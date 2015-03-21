@@ -4,62 +4,107 @@ using System.IO;
 
 public class TrainingScript : MonoBehaviour {
 
-	public float frontSensor;
-	public float rightSensor;
-	public float leftSensor;
-	public float agentDist;
-	public float agentAngle;
-	public int [] actLevels;
+    /// <summary>
+    /// Stop recording after getting within this target's range.
+    /// </summary>
+    public float DistanceThreshold = 0.1f;
+    public bool CreateNewFile = true;
+    public bool AppendToExisting = false;
+    public int RecordIntervalMillis = 300;
+
+    // Input values
+    private float moving = 0.0f;
+    private float rotation;
+
+    // Sensors
+	private float frontSensor;
+	private float rightSensor;
+	private float leftSensor;
+	private float agentDist = float.MaxValue;
+	private float agentAngle;
+
 	private StreamWriter writer;
-	private float timer;
-	private int i;
-	private int line;
-	public float moving=0.0f;
-	public float rotation;
-	private bool record=true;
+    private bool recordData;
+    private float timeElapsed = 0f;
 
 	// Use this for initialization
 	void Start () {
-		i = 0;
-		line = 0;
-		writer = new StreamWriter(@"..\sensorData.txt");
-		timer=10.0f;
+        int i = 0;
+        this.recordData = true;
 
+        if (this.CreateNewFile)
+            while (File.Exists(string.Format("..\\sensorData_{0}.txt", i)))
+                i++;
+
+		this.writer = new StreamWriter(string.Format("..\\sensorData_{0}.txt", i), this.AppendToExisting);
+        Debug.Log("Training started. Logging to file @ " + string.Format("..\\sensorData_{0}.txt", i));
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (record) {
-			printTrainingData ();
-			if (timer > 0) {
-				timer -= Time.deltaTime;
-			}
-			if (timer <= 0) {
-				writer.Close ();
-				record=false;
-				Debug.Log("done "+i);
-			}
+		if (recordData) {
+
+            // Did we find the target
+            if (this.agentDist <= this.DistanceThreshold)
+            {
+                this.recordData = false;
+                if (this.writer != null)
+                    this.writer.Close();
+                Debug.Log("Training run complete! Target found.");
+                return;
+            }
+
+            // Track our time
+            this.timeElapsed += Time.deltaTime * 1000;
+
+            // Time to record?
+            if (timeElapsed >= this.RecordIntervalMillis)
+            {
+			    printTrainingData ();
+                this.timeElapsed = 0f;
+            }
 		}
 	}
 
-	void FixedUpdate () {
-		// call this each update to print the training data
-		//printTrainingData ();
+	private void printTrainingData() {
+	    this.writer.WriteLine (
+            string.Format("{0} {1} {2} {3} {4} {5} {6}",
+            leftSensor.ToString("F1"),
+            frontSensor.ToString("F1"),
+            rightSensor.ToString("F1"),
+            agentDist.ToString("F1"),
+            agentAngle,
+            moving.ToString("F1"),
+            rotation.ToString("F1")));
 	}
 
-	void printTrainingData() {
-		if ((i % 5) == 0) {
-			writer.WriteLine (leftSensor.ToString("F1")+" "+frontSensor.ToString("F1")+" " + rightSensor.ToString("F1")+" "+agentDist.ToString("F1")+" "+agentAngle+" "+moving.ToString("F1")+" "+rotation.ToString("F1"));
-			line++;
-		}
-		i++;
+    #region Setters
+    public void setSensors(float right, float left, float fwd)
+    {
+        this.frontSensor = fwd;
+        this.rightSensor = right;
+        this.leftSensor = left;
+    }
 
-//			using (System.IO.StreamWriter file = new System.IO.StreamWriter(@"..\sensorData.txt"))
-//			{
-//				file.WriteLine(leftSensor);
-//				file.WriteLine(frontSensor);
-//				file.WriteLine(rightSensor);
-//			}
+    public void setRotation(float rot)
+    {
+        this.rotation = rot;
+    }
 
-	}
+    public void setIsMoving(bool isMoving)
+    {
+        this.moving = isMoving ? 1f : 0f;
+    }
+
+    public void setAgentDistance(float distance)
+    {
+        this.agentDist = distance;
+    }
+
+    public void setAgentAngle(float angle)
+    {
+        this.agentAngle = angle;
+    }
+
+    #endregion
 }

@@ -57,7 +57,7 @@ public class PieSensorScript : MonoBehaviour
 			oldLevels [3] != actLevels [3]) {
 			Debug.Log (string.Format ("Activation Levels: {0},{1},{2},{3}", 
 			                        actLevels [0], actLevels [1], actLevels [2], actLevels [3]));
-			trainingObject.GetComponent<TrainingScript> ().actLevels = actLevels;
+			// trainingObject.GetComponent<TrainingScript> ().actLevels = actLevels;
 		}
     }
 
