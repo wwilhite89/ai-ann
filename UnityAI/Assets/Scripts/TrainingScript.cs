@@ -14,8 +14,8 @@ public class TrainingScript : MonoBehaviour {
 	private float timer;
 	private int i;
 	private int line;
-	public bool moving=false;
-	public string rotation;
+	public float moving=0.0f;
+	public float rotation;
 	private bool record=true;
 
 	// Use this for initialization
@@ -49,7 +49,7 @@ public class TrainingScript : MonoBehaviour {
 
 	void printTrainingData() {
 		if ((i % 5) == 0) {
-			writer.WriteLine ("Line "+line+" "+leftSensor.ToString()+" "+frontSensor.ToString()+" " + rightSensor.ToString()+" "+moving+" "+rotation+" "+agentDist+" "+agentAngle);
+			writer.WriteLine (leftSensor.ToString("F1")+" "+frontSensor.ToString("F1")+" " + rightSensor.ToString("F1")+" "+agentDist.ToString("F1")+" "+agentAngle+" "+moving.ToString("F1")+" "+rotation.ToString("F1"));
 			line++;
 		}
 		i++;
