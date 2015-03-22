@@ -39,7 +39,7 @@ public class TrainingScript : MonoBehaviour
 	void Start () {
         int i = 0;
         this.recordData = true;
-
+        
         if (this.CreateNewFile)
             while (File.Exists(string.Format("..\\sensorData_{0}.txt", i)))
                 i++;
