@@ -9,11 +9,11 @@ public class WallSensors : MonoBehaviour {
 	RaycastHit2D hitFront;
 	RaycastHit2D hitRight;
 	RaycastHit2D hitLeft;
-	private string rightDist;
-	private string leftDist;
-	private string fwdDist;
+	private float rightWallDist;
+	private float leftWallDist;
+	private float fwdWallDist;
 	public GameObject trainingObject;
-    private TrainingScript script;
+    private TrainingScript trainer;
 	
 	// Use this for initialization
 	void Start () {
@@ -22,8 +22,8 @@ public class WallSensors : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (this.script == null)
-            this.script = trainingObject.GetComponent<TrainingScript>();
+        if (this.trainingObject != null && this.trainer == null)
+            this.trainer = trainingObject.GetComponent<TrainingScript>();
 		updateSensors ();
 	}
 
@@ -63,17 +63,33 @@ public class WallSensors : MonoBehaviour {
 			hitRight.distance = float.MaxValue;
 		}
 
-		setTrainingDist (hitRight.distance,hitLeft.distance,hitFront.distance);
+        if (this.trainer != null)
+            this.trainer.setSensors(hitRight.distance, hitLeft.distance, hitFront.distance);
 		
 		// format the distances 
-		rightDist = hitRight.distance.ToString ("F2");
-		leftDist = hitLeft.distance.ToString ("F2");
-		fwdDist = hitFront.distance.ToString ("F2");
+        this.rightWallDist = hitRight.distance;
+		this.leftWallDist = hitLeft.distance;
+		this.fwdWallDist = hitFront.distance;
 		// print the distances found to the console
 		/*Debug.Log ("FrontSensor " + rightDist + " " +
 		           "RightSensor " + leftDist +  " " +
 		           "LeftSensor " + fwdDist); */
 	}
+
+    public float GetRightWall()
+    {
+        return this.rightWallDist;
+    }
+
+    public float GetLeftWall()
+    {
+        return this.leftWallDist;
+    }
+
+    public float GetFwdWall()
+    {
+        return this.fwdWallDist;
+    }
 
 	// print the distances of each sensor to the game screen
 	/*void OnGUI() {
@@ -83,10 +99,5 @@ public class WallSensors : MonoBehaviour {
 		GUI.Label (new Rect (10,40,150,20), "Right Wall Sensor: " + rightDist);
 		
 	}*/
-
-
-	private void setTrainingDist(float r, float l, float f) {
-        this.script.setSensors(r, l, f);
-	}
 
 }

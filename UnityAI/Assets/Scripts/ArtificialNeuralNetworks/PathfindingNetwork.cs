@@ -13,7 +13,13 @@ public class PathfindingNetwork : MonoBehaviour
     public double LearnRate = 0.3;
     public double Momentum = 1.0;
     public int MaxTrainingEpochs = 10000;
-    public double ErrorThreshold = 0.1;
+    public double ErrorThreshold = 0.25;
+    public enum Rotate
+    { 
+        Left = -1,
+        Right = 1,
+        None = 0,
+    }
     #endregion
 
     #region Private Fields
@@ -37,7 +43,25 @@ public class PathfindingNetwork : MonoBehaviour
 
     #region Public Methods
 
-
+    /// <summary>
+    /// Based on training determines if the agent should move forward.
+    /// </summary>
+    /// <param name="leftWall"></param>
+    /// <param name="centerWall"></param>
+    /// <param name="rightWall"></param>
+    /// <param name="distance"></param>
+    /// <param name="relativeAngle"></param>
+    /// <param name="rotation">Whether the agent should rotate.</param>
+    /// <returns>Whether the agent should move or not.</returns>
+    public bool GetNextMovement(float leftWall, float centerWall, float rightWall, float distance, float relativeAngle, out Rotate rotate)
+    {
+        var movementThreshold = 1f - this.ErrorThreshold;
+        var vals = this.bnn.ComputeOutputs(new double[] { leftWall, centerWall, rightWall, distance, relativeAngle });
+        rotate = vals[1] < 0.5f - this.ErrorThreshold ? Rotate.Left 
+            : vals[1] > 0.5f + this.ErrorThreshold ? Rotate.Right
+                : Rotate.None;
+        return vals[0] >= movementThreshold;
+    }
 
     #endregion
 
@@ -104,7 +128,7 @@ public class PathfindingNetwork : MonoBehaviour
                     Debug.Log(string.Format("Computing values for training file '{0}'", fileName));
 
                 // Train
-                // this.bnn.Train(input, output, this.VerboseLogging);
+                this.bnn.Train(input, output, this.VerboseLogging);
             }
 
             if (this.VerboseLogging)
