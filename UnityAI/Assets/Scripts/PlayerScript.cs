@@ -52,6 +52,9 @@ public class PlayerScript : MonoBehaviour {
                 out rotate);
 
             translation = movement ? speed : 0;
+            Debug.Log(string.Format("AI decided to {0}move to the {1}", 
+                !movement ? "not " : "", 
+                (rotate == PathfindingNetwork.Rotate.None ? "Center" : rotate.ToString()).ToLower()));
             rotation = (float)rotate * rotationSpeed;
         }
 

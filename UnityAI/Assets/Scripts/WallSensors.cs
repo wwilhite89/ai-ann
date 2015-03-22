@@ -9,9 +9,9 @@ public class WallSensors : MonoBehaviour {
 	RaycastHit2D hitFront;
 	RaycastHit2D hitRight;
 	RaycastHit2D hitLeft;
-	private float rightWallDist;
-	private float leftWallDist;
-	private float fwdWallDist;
+    private float rightWallDist = float.MaxValue;
+    private float leftWallDist = float.MaxValue;
+    private float fwdWallDist = float.MaxValue;
 	public GameObject trainingObject;
     private TrainingScript trainer;
 	

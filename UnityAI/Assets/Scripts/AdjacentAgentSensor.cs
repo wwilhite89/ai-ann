@@ -12,6 +12,12 @@ public class AdjacentAgentSensor : MonoBehaviour {
     private IList<float> distance = new List<float>();
     private IList<float> relativeAngle = new List<float>();
 
+    void Start()
+    {
+        distance.Add(0f);
+        relativeAngle.Add(0f);
+    }
+
     void FixedUpdate()
     {
         if (trainingObject != null && trainer == null)

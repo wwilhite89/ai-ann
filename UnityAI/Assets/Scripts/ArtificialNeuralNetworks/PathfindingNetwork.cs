@@ -29,11 +29,20 @@ public class PathfindingNetwork : MonoBehaviour
 
     // Use this for initialization
 	void Start () {
-        this.createNetwork();
+        /*double[] weights = new double[]
+        {
+//0.04300, 0.02900, 0.09600, 0.03300, 0.09200, 0.04300, 0.07800, 0.06400, 0.08500, 0.04200, 0.08700, 0.05900, 0.06800, 0.07900, 0.07100, 0.09800, 0.06900, 0.08700, 0.06900, 0.05700, 0.01900, 0.08500, 0.08200, 0.05500, 0.68883, 0.25237, 0.68483, 0.25437, 0.74083, 0.19637, 0.70983, 0.18137, 0.67983, 0.16637
+  0.04300, 0.02900, 0.09600, 0.03300, 0.09200, 0.04300, 0.07800, 0.06400, 0.08500, 0.04200, 0.08700, 0.05900, 0.06800, 0.07900, 0.07100, 0.09800, 0.06900, 0.08700, 0.06900, 0.05700, 0.01900, 0.08500, 0.08200, 0.05500, 0.57100, 0.00963, 0.56700, 0.01163, 0.62300, -0.04637, 0.59200, -0.06137, 0.56200, -0.07637
+        };*/
 
-        // Train First
-        if (this.LoadTrainingFiles)
-            this.trainNetwork();
+
+        this.createNetwork();
+        //this.bnn.SetWeights(weights);
+
+            // Train First
+            if (this.LoadTrainingFiles)
+                this.trainNetwork();
+                
 	}
 	
 	// Update is called once per frame
@@ -55,12 +64,23 @@ public class PathfindingNetwork : MonoBehaviour
     /// <returns>Whether the agent should move or not.</returns>
     public bool GetNextMovement(float leftWall, float centerWall, float rightWall, float distance, float relativeAngle, out Rotate rotate)
     {
-        var movementThreshold = 1f - this.ErrorThreshold;
-        var vals = this.bnn.ComputeOutputs(new double[] { leftWall, centerWall, rightWall, distance, relativeAngle });
-        rotate = vals[1] < 0.5f - this.ErrorThreshold ? Rotate.Left 
-            : vals[1] > 0.5f + this.ErrorThreshold ? Rotate.Right
-                : Rotate.None;
-        return vals[0] >= movementThreshold;
+        if (this.bnn != null)
+        {
+            var movementThreshold = 0.9f;
+            var vals = this.bnn.ComputeOutputs(new double[] { leftWall, centerWall, rightWall, distance, relativeAngle });
+            
+            if (this.VerboseLogging)
+                Debug.Log(string.Format("[{0}][{1}]", vals[0], vals[1]));
+
+            rotate = vals[1] < 0.45 ? Rotate.Left
+                : vals[1] > 0.45 ? Rotate.Right
+                    : Rotate.None;
+            return vals[0] >= movementThreshold;
+        }
+
+        // Wait until the network is ready
+        rotate = Rotate.None;
+        return false;
     }
 
     #endregion
@@ -142,7 +162,7 @@ public class PathfindingNetwork : MonoBehaviour
         {
             Debug.Log(string.Format("Neural network trained on {0} file(s).", totalFiles));
             Debug.Log("Final weights after training.");
-            Helpers.ShowVector(this.bnn.GetWeights(), 3, 50, false);
+            Helpers.ShowVector(this.bnn.GetWeights(), 5, 50, false);
         }
     }
     #endregion

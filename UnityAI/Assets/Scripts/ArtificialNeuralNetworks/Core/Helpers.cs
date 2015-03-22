@@ -21,7 +21,7 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
             var sb = new StringBuilder();
             for (int i = 0; i < vector.Length; ++i)
             {
-                sb.Append("[" + vector[i].ToString("F" + decimals) + "], "); // n decimals
+                sb.Append(vector[i].ToString("F" + decimals) + ", "); // n decimals
                 if ((i != 0 && i % valsPerLine == 0) || valsPerLine == 1)
                 {
                     Debug.Log(sb.ToString());
