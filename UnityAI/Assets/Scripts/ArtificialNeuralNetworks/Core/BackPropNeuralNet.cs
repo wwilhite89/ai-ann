@@ -16,13 +16,13 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
 
         #region Fields
         public int InputNodeCount { get; private set; }
-        public int HiddeNodeCount { get; private set; }
+        public int HiddenNodeCount { get; private set; }
         public int OutputNodeCount { get; private set; }
         public int TotalWeightCount
         {
             get
             {
-                return (InputNodeCount * HiddeNodeCount) + (HiddeNodeCount * OutputNodeCount) + (HiddeNodeCount + OutputNodeCount);
+                return (InputNodeCount * HiddenNodeCount) + (HiddenNodeCount * OutputNodeCount) + (HiddenNodeCount + OutputNodeCount);
             }
         }
         public double LearnRate { get; set; }
@@ -57,7 +57,7 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
         public BackPropNeuralNet(int numInput, int numHidden, int numOutput, bool randomizeInitialWeights)
         {
             this.InputNodeCount = numInput;
-            this.HiddeNodeCount = numHidden;
+            this.HiddenNodeCount = numHidden;
             this.OutputNodeCount = numOutput;
 
             inputs = new double[numInput];
@@ -167,15 +167,15 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
 
             // Input to Hidden
             for (int i = 0; i < this.InputNodeCount; ++i)
-                for (int j = 0; j < this.HiddeNodeCount; ++j)
+                for (int j = 0; j < this.HiddenNodeCount; ++j)
                     ihWeights[i][j] = weights[k++];
 
             // Hidden biases
-            for (int i = 0; i < this.HiddeNodeCount; ++i)
+            for (int i = 0; i < this.HiddenNodeCount; ++i)
                 hBiases[i] = weights[k++];
 
             // Hidden to Output
-            for (int i = 0; i < this.HiddeNodeCount; ++i)
+            for (int i = 0; i < this.HiddenNodeCount; ++i)
                 for (int j = 0; j < this.OutputNodeCount; ++j)
                     hoWeights[i][j] = weights[k++];
 
@@ -213,7 +213,7 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
             if (xValues.Length != this.InputNodeCount)
                 throw new Exception("Inputs array length " + inputs.Length + " does not match NN numInput value " + this.InputNodeCount);
 
-            for (int i = 0; i < this.HiddeNodeCount; ++i)
+            for (int i = 0; i < this.HiddenNodeCount; ++i)
                 this.hSums[i] = 0.0;
             for (int i = 0; i < this.OutputNodeCount; ++i)
                 this.oSums[i] = 0.0;
@@ -221,18 +221,18 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
             for (int i = 0; i < xValues.Length; ++i) // copy x-values to inputs
                 this.inputs[i] = xValues[i];
 
-            for (int j = 0; j < this.HiddeNodeCount; ++j)  // compute hidden layer weighted sums
+            for (int j = 0; j < this.HiddenNodeCount; ++j)  // compute hidden layer weighted sums
                 for (int i = 0; i < this.InputNodeCount; ++i)
                     this.hSums[j] += this.inputs[i] * this.ihWeights[i][j];
 
-            for (int i = 0; i < this.HiddeNodeCount; ++i)  // add biases to hidden sums
+            for (int i = 0; i < this.HiddenNodeCount; ++i)  // add biases to hidden sums
                 this.hSums[i] += this.hBiases[i];
 
-            for (int i = 0; i < this.HiddeNodeCount; ++i)
+            for (int i = 0; i < this.HiddenNodeCount; ++i)
                 this.hOutputs[i] = this.computeActivation(hSums[i], this.HiddenLayerActivation);
 
             for (int j = 0; j < this.OutputNodeCount; ++j)   // compute output layer weighted sums
-                for (int i = 0; i < this.HiddeNodeCount; ++i)
+                for (int i = 0; i < this.HiddenNodeCount; ++i)
                     this.oSums[j] += this.hOutputs[i] * this.hoWeights[i][j];
 
             for (int i = 0; i < this.OutputNodeCount; ++i)  // add biases to output sums

@@ -8,7 +8,6 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
 {
     public class Helpers
     {
-
         public static double[][] MakeMatrix(int rows, int cols)
         {
             double[][] result = new double[rows][];
@@ -19,13 +18,21 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
 
         public static void ShowVector(double[] vector, int decimals, int valsPerLine, bool blankLine)
         {
+            var sb = new StringBuilder();
             for (int i = 0; i < vector.Length; ++i)
             {
-                if (i > 0 && i % valsPerLine == 0) // max of 12 values per row 
-                    Debug.Log("");
-                if (vector[i] >= 0.0) Debug.Log(" ");
-                Debug.Log(vector[i].ToString("F" + decimals) + " "); // n decimals
+                sb.Append("[" + vector[i].ToString("F" + decimals) + "], "); // n decimals
+                if ((i != 0 && i % valsPerLine == 0) || valsPerLine == 1)
+                {
+                    Debug.Log(sb.ToString());
+                    sb.Remove(0, sb.Length);
+                }
+                
             }
+
+            if (sb.Length > 0)
+                Debug.Log(sb.ToString());
+
             if (blankLine) Debug.Log("\n");
         }
 

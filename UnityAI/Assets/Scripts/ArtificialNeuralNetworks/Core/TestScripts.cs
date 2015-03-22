@@ -80,7 +80,7 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
 
                 #region BNN information
 
-                Debug.Log("Creating a " + bnn.InputNodeCount + "-input, " + bnn.HiddeNodeCount + "-hidden, " + bnn.OutputNodeCount + "-output neural network");
+                Debug.Log("Creating a " + bnn.InputNodeCount + "-input, " + bnn.HiddenNodeCount + "-hidden, " + bnn.OutputNodeCount + "-output neural network");
                 Debug.Log("Using " + bnn.HiddenLayerActivation.ToString() + " function for hidden layer activation");
                 Debug.Log("Using " + bnn.OutputLayerActivation.ToString() + " function for output layer activation");
                 Debug.Log("\nGenerating random initial weights and bias values");

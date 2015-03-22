@@ -2,15 +2,21 @@
 using System.Collections;
 using System.IO;
 
-public class TrainingScript : MonoBehaviour {
+public class TrainingScript : MonoBehaviour
+{
 
+    #region Fields
     /// <summary>
     /// Stop recording after getting within this target's range.
     /// </summary>
     public float DistanceThreshold = 0.1f;
     public bool CreateNewFile = true;
     public bool AppendToExisting = false;
-    public int RecordIntervalMillis = 300;
+    // public int RecordIntervalMillis = 300;
+    /// <summary>
+    /// Number of updates in between logging to training file.
+    /// </summary>
+    public int RecordEach = 5;
 
     // Input values
     private float moving = 0.0f;
@@ -25,9 +31,11 @@ public class TrainingScript : MonoBehaviour {
 
 	private StreamWriter writer;
     private bool recordData;
-    private float timeElapsed = 0f;
+    // private float timeElapsed = 0f;
+    private int updatesElapsed = 0;
+    #endregion
 
-	// Use this for initialization
+    // Use this for initialization
 	void Start () {
         int i = 0;
         this.recordData = true;
@@ -55,13 +63,16 @@ public class TrainingScript : MonoBehaviour {
             }
 
             // Track our time
-            this.timeElapsed += Time.deltaTime * 1000;
+            // this.timeElapsed += Time.deltaTime * 1000;
+            this.updatesElapsed++;
 
             // Time to record?
-            if (timeElapsed >= this.RecordIntervalMillis)
+            //if (timeElapsed >= this.RecordIntervalMillis)
+            if (this.updatesElapsed >= this.RecordEach)
             {
 			    printTrainingData ();
-                this.timeElapsed = 0f;
+                // this.timeElapsed = 0f;
+                this.updatesElapsed = 0;
             }
 		}
 	}

@@ -15,12 +15,14 @@ public class PathfindingNetwork : MonoBehaviour
     #endregion
 
     #region Private Fields
-    private string rootTrainingFilePath = @"..\sensorData";
+    private string trainingFileFormat = "..\\sensorData_{0}.txt";
     private BackPropNeuralNet bnn;
     #endregion
 
     // Use this for initialization
 	void Start () {
+        this.createNetwork();
+
         // Train First
         if (this.LoadTrainingFiles)
             this.trainNetwork();
@@ -31,15 +33,42 @@ public class PathfindingNetwork : MonoBehaviour
 	
 	}
 
+    #region Public Methods
+
+
+
+    #endregion
+
     #region Private Methods
     private void createNetwork()
     {
-    
+        this.bnn = new BackPropNeuralNet(5, 4, 2, true)
+        {
+            LearnRate = this.LearnRate,
+            Momentum = this.Momentum,
+            MaxEpochs = this.MaxTrainingEpochs,
+            ErrorThreshold = this.ErrorThreshold,
+            HiddenLayerActivation = BackPropNeuralNet.ActivationMethod.Sigmoid,
+            OutputLayerActivation = BackPropNeuralNet.ActivationMethod.Sigmoid,
+        };
+
+        if (this.VerboseLogging)
+            Debug.Log(string.Format("Pathfinding {0}-{1}-{2} neural network created.",
+                bnn.InputNodeCount,
+                bnn.HiddenNodeCount,
+                bnn.OutputNodeCount));
     }
 
     private void trainNetwork()
     {
+        int i = 0;
 
+        if (this.VerboseLogging)
+        {
+            Debug.Log("Neural network trained.");
+            Debug.Log("Final weights after training.");
+            Helpers.ShowVector(this.bnn.GetWeights(), 3, 50, false);
+        }
     }
     #endregion
 
