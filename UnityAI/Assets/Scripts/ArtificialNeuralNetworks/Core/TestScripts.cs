@@ -38,7 +38,7 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
                 OutputLayerActivation = BackPropNeuralNet.ActivationMethod.Sigmoid,
             };
             
-            bnn.Train(inputs, goals);
+            bnn.Train(inputs, goals, true);
 
             // Debug.Log("Final neural network weights and bias values are:");
             // Helpers.ShowVector(bnn.GetWeights(), 5, 8, true);

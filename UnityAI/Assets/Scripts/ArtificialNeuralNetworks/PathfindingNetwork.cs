@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using Assets.Scripts.ArtificialNeuralNetworks.Core;
+using System.IO;
 
 public class PathfindingNetwork : MonoBehaviour
 {
@@ -61,11 +63,60 @@ public class PathfindingNetwork : MonoBehaviour
 
     private void trainNetwork()
     {
-        int i = 0;
+        int totalFiles = 0, filesProcessed = 0;
+
+        if (this.VerboseLogging)
+            Debug.Log("Training network from files.");
+
+        while (File.Exists(string.Format(this.trainingFileFormat, totalFiles)))
+        {
+            var fileName = string.Format(this.trainingFileFormat, totalFiles);
+            var count = File.ReadAllLines(fileName).Length;
+            var input = new double[count][];
+            var output = new double[count][];
+            
+            if (this.VerboseLogging)
+                Debug.Log(string.Format("Reading training file '{0}'", fileName));
+
+            using (var reader = new StreamReader(fileName))
+            {
+                filesProcessed = 0;
+
+                // Read data
+                while (filesProcessed < count)
+                {
+                    input[filesProcessed] = new double[5];
+                    output[filesProcessed] = new double[2];
+
+                    var values = reader.ReadLine().Split(' ');
+                    // Debug.Log(values);
+                    double.TryParse(values[0], out input[filesProcessed][0]);
+                    double.TryParse(values[1], out input[filesProcessed][1]);
+                    double.TryParse(values[2], out input[filesProcessed][2]);
+                    double.TryParse(values[3], out input[filesProcessed][3]);
+                    double.TryParse(values[4], out input[filesProcessed][4]);
+                    double.TryParse(values[5], out output[filesProcessed][0]);
+                    double.TryParse(values[6], out output[filesProcessed][1]);
+                    filesProcessed++; // Next line
+                }
+
+                if (this.VerboseLogging)
+                    Debug.Log(string.Format("Computing values for training file '{0}'", fileName));
+
+                // Train
+                // this.bnn.Train(input, output, this.VerboseLogging);
+            }
+
+            if (this.VerboseLogging)
+                Debug.Log(string.Format("Training file '{0}' loaded into network. {1} lines processed.", fileName, count));
+
+            totalFiles++; // Get next file
+        }
+
 
         if (this.VerboseLogging)
         {
-            Debug.Log("Neural network trained.");
+            Debug.Log(string.Format("Neural network trained on {0} file(s).", totalFiles));
             Debug.Log("Final weights after training.");
             Helpers.ShowVector(this.bnn.GetWeights(), 3, 50, false);
         }

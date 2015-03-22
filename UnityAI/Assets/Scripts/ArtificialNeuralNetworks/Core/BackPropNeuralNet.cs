@@ -90,14 +90,14 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
 
         #region Public Methods
 
-        public void Train(double[][] input, double[][] target)
+        public void Train(double[][] input, double[][] target, bool showLog)
         {
             int epoch = 0;
             double error = double.MaxValue;
             bool[] withinError = new bool[input.Length];
             bool found = false;
 
-            Debug.Log("\nBeginning training using back-propagation\n");
+            Debug.Log("Beginning training using back-propagation");
 
             while (epoch < this.MaxEpochs) // train
             {
@@ -126,7 +126,7 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
 
             if (!found)
                 Debug.Log(string.Format("Could not train to all targets within {0} epochs.", this.MaxEpochs));
-            else
+            else if (showLog)
                 Debug.Log(string.Format("Trained to all targets within {0} epochs.", epoch));
         }
 
