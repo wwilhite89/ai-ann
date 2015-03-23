@@ -9,15 +9,17 @@ public class WallSensors : MonoBehaviour {
 	RaycastHit2D hitFront;
 	RaycastHit2D hitRight;
 	RaycastHit2D hitLeft;
-    private float rightWallDist = float.MaxValue;
-    private float leftWallDist = float.MaxValue;
-    private float fwdWallDist = float.MaxValue;
+    private float rightWallDist;
+    private float leftWallDist;
+    private float fwdWallDist;
 	public GameObject trainingObject;
     private TrainingScript trainer;
 	
 	// Use this for initialization
 	void Start () {
-	
+		rightWallDist = sensorLength;
+		leftWallDist = sensorLength;
+		fwdWallDist = sensorLength;
 	}
 	
 	// Update is called once per frame
@@ -56,11 +58,11 @@ public class WallSensors : MonoBehaviour {
 		
 		// return the sensor length if the sensor does not sense a wall/ other collider
 		if (hitFront.collider == null)
-			hitFront.distance = float.MaxValue;
+			hitFront.distance = this.sensorLength;
 		if (hitLeft.collider == null)
-			hitLeft.distance = float.MaxValue;
+			hitLeft.distance = this.sensorLength;
 		if (hitRight.collider == null) {
-			hitRight.distance = float.MaxValue;
+			hitRight.distance = this.sensorLength;
 		}
 
         if (this.trainer != null)

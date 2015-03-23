@@ -10,7 +10,7 @@ public class PathfindingNetwork : MonoBehaviour
     #region Public Fields
     public bool LoadTrainingFiles = false;
     public bool VerboseLogging = true;
-    public double LearnRate = 0.3;
+    public double LearnRate = 0.2;
     public double Momentum = 1.0;
     public int MaxTrainingEpochs = 10000;
     public double ErrorThreshold = 0.25;
@@ -29,15 +29,14 @@ public class PathfindingNetwork : MonoBehaviour
 
     // Use this for initialization
 	void Start () {
-        /*double[] weights = new double[]
+        double[] weights = new double[]
         {
-//0.04300, 0.02900, 0.09600, 0.03300, 0.09200, 0.04300, 0.07800, 0.06400, 0.08500, 0.04200, 0.08700, 0.05900, 0.06800, 0.07900, 0.07100, 0.09800, 0.06900, 0.08700, 0.06900, 0.05700, 0.01900, 0.08500, 0.08200, 0.05500, 0.68883, 0.25237, 0.68483, 0.25437, 0.74083, 0.19637, 0.70983, 0.18137, 0.67983, 0.16637
-  0.04300, 0.02900, 0.09600, 0.03300, 0.09200, 0.04300, 0.07800, 0.06400, 0.08500, 0.04200, 0.08700, 0.05900, 0.06800, 0.07900, 0.07100, 0.09800, 0.06900, 0.08700, 0.06900, 0.05700, 0.01900, 0.08500, 0.08200, 0.05500, 0.57100, 0.00963, 0.56700, 0.01163, 0.62300, -0.04637, 0.59200, -0.06137, 0.56200, -0.07637
-        };*/
+			-0.00022, -0.09342, 1.81210, -0.03253, 0.05824, -0.01413, 0.89718, 0.03252, 0.03007, -0.05662, 1.54228, 0.00393, 0.03873, -0.53799, 9.94697, -0.22154, -1.00195, -1.19059, -4.20571, -0.71062, 0.02685, -0.08348, 2.82695, -0.03127, 7.41734, 0.59613, -0.55521, 0.65568, 1.83933, -1.19487, -0.98381, 0.81873, -5.70799, 1.38290
+        };
 
 
         this.createNetwork();
-        //this.bnn.SetWeights(weights);
+        this.bnn.SetWeights(weights);
 
             // Train First
             if (this.LoadTrainingFiles)
@@ -72,8 +71,8 @@ public class PathfindingNetwork : MonoBehaviour
             if (this.VerboseLogging)
                 Debug.Log(string.Format("[{0}][{1}]", vals[0], vals[1]));
 
-            rotate = vals[1] < 0.45 ? Rotate.Left
-                : vals[1] > 0.45 ? Rotate.Right
+            rotate = vals[1] < 0.3 ? Rotate.Left
+                : vals[1] > 0.7 ? Rotate.Right
                     : Rotate.None;
             return vals[0] >= movementThreshold;
         }
