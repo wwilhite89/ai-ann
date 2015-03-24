@@ -41,7 +41,7 @@ public class WallSensors : MonoBehaviour {
 		
 		
 		// Debug rays drawn in scene view  ***********  May want to remove  ************
-		Debug.DrawRay (transform.position, this.transform.up * 3.0f, Color.cyan);
+		Debug.DrawRay (transform.position, this.transform.up * sensorLength, Color.cyan);
 		Debug.DrawRay (transform.position, fwdRight * sensorLength, Color.cyan);
 		Debug.DrawRay (transform.position, fwdLeft * sensorLength, Color.cyan);
 		

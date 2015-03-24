@@ -16,18 +16,16 @@ public class AgentScript : MonoBehaviour {
 
 	}
 
-	void OnTriggerExit2D(Collider2D coll) {
+	void OnTriggerEnter2D(Collider2D coll) {
 		if (coll.gameObject.name.Contains("Mower")) {
-
 			FindLocation();
-
+			
 			Destroy(this.gameObject);
-			//Instantiate(deadBunny, transform.position, transform.rotation);
 		}
 
-		if (coll.gameObject.name.Contains ("Wall")) {
+		if (coll.gameObject.name.Contains ("Long Bush")) {
 			FindLocation ();
-
+			
 			Destroy (this.gameObject);
 		}
 	}
