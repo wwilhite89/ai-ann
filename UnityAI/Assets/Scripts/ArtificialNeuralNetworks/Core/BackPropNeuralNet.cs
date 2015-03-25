@@ -101,7 +101,7 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
 
             while (epoch < this.MaxEpochs) // train
             {
-                //if (epoch % 20 == 0) Debug.Log("epoch = " + epoch);
+                if (epoch % 100 == 0) Debug.Log("epoch = " + epoch);
 
                 for (int i = 0; i < input.Length; i++)
                 {

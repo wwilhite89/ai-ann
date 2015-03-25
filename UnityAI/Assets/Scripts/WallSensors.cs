@@ -36,8 +36,8 @@ public class WallSensors : MonoBehaviour {
 		Vector2 fwdLeft = transform.position;
 		
 		// set the sensor offsets
-		fwdRight.Set (this.transform.up.x / 2 + this.transform.right.x / 2, this.transform.up.y / 2 + this.transform.right.y / 2);
-		fwdLeft.Set (this.transform.up.x / 2 + -this.transform.right.x / 2, this.transform.up.y / 2 + -this.transform.right.y / 2);
+		fwdRight.Set (this.transform.up.x / 3 + 2*this.transform.right.x / 3, this.transform.up.y / 3 + 2*this.transform.right.y / 3);
+		fwdLeft.Set (this.transform.up.x / 3 + -2*this.transform.right.x / 3, this.transform.up.y / 3 + -2*this.transform.right.y / 3);
 		
 		
 		// Debug rays drawn in scene view  ***********  May want to remove  ************
