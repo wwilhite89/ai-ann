@@ -46,7 +46,9 @@ public class PlayerScript : MonoBehaviour {
             var movement = ai.GetNextMovement(
                 wallSensors.GetLeftWall(true), 
                 wallSensors.GetFwdWall(true), 
-                wallSensors.GetRightWall(true), 
+                wallSensors.GetRightWall(true),
+                wallSensors.GetDirectRightWall(true),
+                wallSensors.GetDirectLeftWall(true),
                 adjSensors.GetAgentDistances(true)[0], // Only care about the closest agent
                 adjSensors.GetAgentRelativeAngles(true)[0], // Only care about the closest agent
                 out rotate);

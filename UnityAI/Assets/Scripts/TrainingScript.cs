@@ -28,6 +28,8 @@ public class TrainingScript : MonoBehaviour
 	private float frontSensor;
 	private float rightSensor;
 	private float leftSensor;
+    private float leftDirectSensor;
+    private float rightDirectSensor;
     private float agentDist;
 	private float agentAngle;
 
@@ -98,10 +100,12 @@ public class TrainingScript : MonoBehaviour
 	private void printTrainingData() {
         // Normalize
 	    this.writer.WriteLine (
-            string.Format("{0} {1} {2} {3} {4} {5} {6}",
+            string.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8}",
             leftSensor.ToString("F6"),
             frontSensor.ToString("F6"),
             rightSensor.ToString("F6"),
+            rightDirectSensor.ToString("F6"),
+            leftDirectSensor.ToString("F6"),
             agentDist.ToString("F6"),
             agentAngle.ToString("F3"),
             moving.ToString("F1"),
@@ -109,11 +113,13 @@ public class TrainingScript : MonoBehaviour
 	}
 
     #region Setters
-    public void setSensors(float right, float left, float fwd)
+    public void setSensors(float right, float left, float fwd, float rightDirect, float leftDirect)
     {
         this.frontSensor = fwd;
         this.rightSensor = right;
         this.leftSensor = left;
+        this.rightDirectSensor = rightDirect;
+        this.leftDirectSensor = leftDirect;
     }
 
     public void setRotation(float rot)
