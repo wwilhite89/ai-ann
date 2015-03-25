@@ -24,8 +24,7 @@ public class AgentScript : MonoBehaviour {
 		}
 
 		if (coll.gameObject.name.Contains ("Long Bush")) {
-			FindLocation ();
-			
+			FindLocation ();			
 			Destroy (this.gameObject);
 		}
 	}

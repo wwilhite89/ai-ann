@@ -66,7 +66,10 @@ public class WallSensors : MonoBehaviour {
 		}
 
         if (this.trainer != null)
-            this.trainer.setSensors(hitRight.distance, hitLeft.distance, hitFront.distance);
+            this.trainer.setSensors(
+                hitRight.distance / this.sensorLength, 
+                hitLeft.distance / this.sensorLength,
+                hitFront.distance / this.sensorLength);
 		
 		// format the distances 
         this.rightWallDist = hitRight.distance;
@@ -78,19 +81,22 @@ public class WallSensors : MonoBehaviour {
 		           "LeftSensor " + fwdDist); */
 	}
 
-    public float GetRightWall()
+    public float GetRightWall(bool normalized)
     {
-        return this.rightWallDist;
+        return !normalized ? this.rightWallDist:
+            this.rightWallDist / this.sensorLength;
     }
 
-    public float GetLeftWall()
+    public float GetLeftWall(bool normalized)
     {
-        return this.leftWallDist;
+        return !normalized ? this.leftWallDist:
+            this.leftWallDist / this.sensorLength;
     }
 
-    public float GetFwdWall()
+    public float GetFwdWall(bool normalized)
     {
-        return this.fwdWallDist;
+        return !normalized ? this.fwdWallDist:
+            this.fwdWallDist / this.sensorLength;
     }
 
 	// print the distances of each sensor to the game screen

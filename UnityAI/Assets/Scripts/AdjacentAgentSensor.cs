@@ -11,9 +11,11 @@ public class AdjacentAgentSensor : MonoBehaviour {
     private TrainingScript trainer;
     private IList<float> distance = new List<float>();
     private IList<float> relativeAngle = new List<float>();
+    private float normalizeTo;
 
     void Start()
     {
+        this.normalizeTo = 30f;
         distance.Add(0f);
         relativeAngle.Add(0f);
     }
@@ -53,8 +55,8 @@ public class AdjacentAgentSensor : MonoBehaviour {
             if (this.trainer != null)
             {
                 // Training for now only cares about the closest one
-                trainer.setAgentDistance(vector.x);
-                trainer.setAgentAngle(vector.y);
+                trainer.setAgentDistance(vector.x / this.normalizeTo);
+                trainer.setAgentAngle(vector.y / 360f);
             }
         }
     }
@@ -85,15 +87,22 @@ public class AdjacentAgentSensor : MonoBehaviour {
         }
     }*/
 
-    public IList<float> GetAgentDistances()
+
+
+    public IList<float> GetAgentDistances(bool normalized)
     {
-        return this.distance;
+        if (!normalized)
+            return this.distance;
+
+        return this.distance.Select(x => x / this.normalizeTo).ToList();
     }
 
-    public IList<float> GetAgentRelativeAngles()
+    public IList<float> GetAgentRelativeAngles(bool normalized)
     {
-        return this.relativeAngle;
+        return !normalized ? this.relativeAngle :
+            this.relativeAngle.Select(x => x / 360f).ToList();
     }
+
 
     private GameObject[] getObjectsInRadius(string agentName) {
         Vector3 pos = gameObject.transform.position;

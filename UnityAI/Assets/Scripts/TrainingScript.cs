@@ -26,7 +26,7 @@ public class TrainingScript : MonoBehaviour
 	private float frontSensor;
 	private float rightSensor;
 	private float leftSensor;
-	private float agentDist = float.MaxValue;
+    private float agentDist;
 	private float agentAngle;
 
 	private StreamWriter writer;
@@ -78,13 +78,14 @@ public class TrainingScript : MonoBehaviour
 	}
 
 	private void printTrainingData() {
+        // Normalize
 	    this.writer.WriteLine (
             string.Format("{0} {1} {2} {3} {4} {5} {6}",
-            leftSensor.ToString("F1"),
-            frontSensor.ToString("F1"),
-            rightSensor.ToString("F1"),
-            agentDist.ToString("F1"),
-            agentAngle,
+            leftSensor.ToString("F6"),
+            frontSensor.ToString("F6"),
+            rightSensor.ToString("F6"),
+            agentDist.ToString("F6"),
+            agentAngle.ToString("F3"),
             moving.ToString("F1"),
             rotation.ToString("F1")));
 	}

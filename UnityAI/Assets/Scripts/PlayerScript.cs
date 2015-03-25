@@ -44,11 +44,11 @@ public class PlayerScript : MonoBehaviour {
         {
             PathfindingNetwork.Rotate rotate;
             var movement = ai.GetNextMovement(
-                wallSensors.GetLeftWall(), 
-                wallSensors.GetFwdWall(), 
-                wallSensors.GetRightWall(), 
-                adjSensors.GetAgentDistances()[0], // Only care about the closest agent
-                adjSensors.GetAgentRelativeAngles()[0], // Only care about the closest agent
+                wallSensors.GetLeftWall(true), 
+                wallSensors.GetFwdWall(true), 
+                wallSensors.GetRightWall(true), 
+                adjSensors.GetAgentDistances(true)[0], // Only care about the closest agent
+                adjSensors.GetAgentRelativeAngles(true)[0], // Only care about the closest agent
                 out rotate);
 
             translation = movement ? speed : 0;
