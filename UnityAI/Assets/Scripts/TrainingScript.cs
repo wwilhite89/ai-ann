@@ -12,6 +12,8 @@ public class TrainingScript : MonoBehaviour
     public float DistanceThreshold = 0.1f;
     public bool CreateNewFile = true;
     public bool AppendToExisting = false;
+	public int trainingTrials = 1;
+	private int count;
     // public int RecordIntervalMillis = 300;
     /// <summary>
     /// Number of updates in between logging to training file.
@@ -38,6 +40,8 @@ public class TrainingScript : MonoBehaviour
     // Use this for initialization
 	void Start () {
         int i = 0;
+		count = 0;
+
         this.recordData = true;
         
         if (this.CreateNewFile)
@@ -52,15 +56,15 @@ public class TrainingScript : MonoBehaviour
 	void Update () {
 		if (recordData) {
 
-            // Did we find the target
-            if (this.agentDist <= this.DistanceThreshold)
+            // Did we find the target/*
+          /*  if (this.agentDist <= this.DistanceThreshold)
             {
                 this.recordData = false;
                 if (this.writer != null)
                     this.writer.Close();
                 Debug.Log("Training run complete! Target found.");
                 return;
-            }
+            } */
 
             // Track our time
             // this.timeElapsed += Time.deltaTime * 1000;
@@ -74,6 +78,20 @@ public class TrainingScript : MonoBehaviour
                 // this.timeElapsed = 0f;
                 this.updatesElapsed = 0;
             }
+		}
+	}
+
+	void OnTriggerEnter2D(Collider2D coll) {
+		if (coll.gameObject.name.Contains ("Bunny")) {
+			count++;
+
+			if (count == trainingTrials) {
+				this.recordData = false;
+				if (this.writer != null)
+					this.writer.Close ();
+				Debug.Log ("Training run complete! Target found.");
+				return;
+			}
 		}
 	}
 

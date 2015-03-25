@@ -6,6 +6,8 @@ public class AgentScript : MonoBehaviour {
 	public GameObject player;
 	public GameObject deadBunny;
 	public GameObject bunny;
+	public bool autoSpawn;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -18,13 +20,17 @@ public class AgentScript : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D coll) {
 		if (coll.gameObject.name.Contains("Mower")) {
-			FindLocation();
+
+			if (autoSpawn)
+				FindLocation();
 			
 			Destroy(this.gameObject);
 		}
 
 		if (coll.gameObject.name.Contains ("Long Bush")) {
-			FindLocation ();			
+
+			if (autoSpawn)
+				FindLocation ();			
 			Destroy (this.gameObject);
 		}
 	}
