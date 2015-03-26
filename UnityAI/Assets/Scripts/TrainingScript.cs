@@ -58,16 +58,6 @@ public class TrainingScript : MonoBehaviour
 	void Update () {
 		if (recordData) {
 
-            // Did we find the target/*
-          /*  if (this.agentDist <= this.DistanceThreshold)
-            {
-                this.recordData = false;
-                if (this.writer != null)
-                    this.writer.Close();
-                Debug.Log("Training run complete! Target found.");
-                return;
-            } */
-
             // Track our time
             // this.timeElapsed += Time.deltaTime * 1000;
             this.updatesElapsed++;

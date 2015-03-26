@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
+using System.IO;
 
 namespace Assets.Scripts.ArtificialNeuralNetworks.Core
 {
@@ -96,6 +97,7 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
             double error = double.MaxValue;
             bool[] withinError = new bool[input.Length];
             bool found = false;
+			StreamWriter outFile = new StreamWriter("..\\epochError.txt", true);
 
             Debug.Log("Beginning training using back-propagation");
 
@@ -107,6 +109,7 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
                 {
                     outputs = this.ComputeOutputs(input[i]);
                     error = Helpers.Error(target[i], outputs);
+
                     withinError[i] = error < this.ErrorThreshold;
 
                     if (withinError.All(x => x))
@@ -121,6 +124,7 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
                 if (found)
                     break;
 
+				outFile.WriteLine("Error of epoch {0}: {1}", epoch, error);
                 ++epoch;
             }
 
@@ -128,6 +132,8 @@ namespace Assets.Scripts.ArtificialNeuralNetworks.Core
                 Debug.Log(string.Format("Could not train to all targets within {0} epochs.", this.MaxEpochs));
             else if (showLog)
                 Debug.Log(string.Format("Trained to all targets within {0} epochs.", epoch));
+
+			outFile.Close();
         }
 
         public void TrainSingle(double[] input, double[] target)
